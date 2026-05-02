@@ -1,26 +1,44 @@
+<![CDATA[<div align="center">
+
 # 🔍 LLM Lens
 
-> **See your LLM clearly.** — 开源、免费、零依赖的 LLM 可观测性工具
+### See your LLM clearly.
+
+**开源、免费、零依赖的 LLM 可观测性工具**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://hub.docker.com/r/llmlens/llm-lens)
 [![GitHub Stars](https://img.shields.io/github/stars/Howard-Soap/llm-lens.svg)](https://github.com/Howard-Soap/llm-lens)
+[![GitHub Forks](https://img.shields.io/github/forks/Howard-Soap/llm-lens.svg)](https://github.com/Howard-Soap/llm-lens)
+[![Docker Pulls](https://img.shields.io/docker/pulls/llmlens/llm-lens.svg)](https://hub.docker.com/r/llmlens/llm-lens)
+[![Twitter](https://img.shields.io/twitter/follow/llmlens.svg?style=social)](https://twitter.com/llmlens)
+
+[English](#english) | [中文](#中文)
+
+<img src="docs/screenshot.png" alt="LLM Lens Dashboard" width="100%" />
+
+</div>
 
 ---
 
-## ✨ 特性
+<a name="中文"></a>
 
-- 🚀 **一行代码接入** — 只需改 `base_url`，不需要安装 SDK
-- 🐳 **一键部署** — `docker run` 启动，不需要外部数据库
-- 💰 **成本追踪** — 按模型/用户/时间维度分析 LLM 费用
-- 📊 **可视化看板** — 可拖拽的 Notion 风格 Dashboard
-- 🔗 **Agent Trace** — 多步推理链可视化（Coming Soon）
-- 🔒 **安全第一** — API Key 不存储、日志脱敏、本地优先
-- 🆓 **完全免费** — MIT 开源，无付费功能
+## 🇨🇳 中文
 
-## 🚀 快速开始
+### ✨ 为什么选择 LLM Lens？
 
-### Docker 一键部署
+| 特性 | LLM Lens | Langfuse | Helicone | LangSmith |
+|------|----------|----------|----------|-----------|
+| **价格** | 🆓 完全免费 | 免费自部署，云版 $59/月 | Pro $20/座/月 | Plus $39/座/月 |
+| **自部署** | 🐳 一行 docker run | ❌ 需要 ClickHouse | ❌ 需要代理服务 | ❌ 不支持 |
+| **接入方式** | 📝 改 base_url | SDK / 改 base_url | 改 base_url | SDK（绑定 LangChain） |
+| **Agent Trace** | ✅ 专门做 | ⚠️ 基础 | ❌ | ⚠️ 基础 |
+| **看板系统** | ✅ 可拖拽 | ❌ 固定 | ❌ 固定 | ❌ 固定 |
+| **存储** | 📦 SQLite（零依赖） | ❌ ClickHouse + PostgreSQL | ☁️ 云端 | ☁️ 云端 |
+| **开源协议** | 📄 MIT | MIT（部分） | Apache 2.0 | ❌ 不开源 |
+
+### 🚀 快速开始
+
+#### 1. 一行命令启动
 
 ```bash
 docker run -d \
@@ -30,9 +48,7 @@ docker run -d \
   llmlens/llm-lens:latest
 ```
 
-### 接入你的应用
-
-只需修改 `base_url`：
+#### 2. 接入你的应用（只需改一行）
 
 ```python
 import openai
@@ -42,92 +58,219 @@ client = openai.OpenAI(
     base_url="http://localhost:3000/v1"  # ← 改这一行
 )
 
-# 其他代码完全不用改
+# 其他代码完全不用改！
 response = client.chat.completions.create(
     model="gpt-4",
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
 
-### 访问 Dashboard
+#### 3. 打开 Dashboard
 
-打开浏览器访问 `http://localhost:3000`
+浏览器访问 `http://localhost:3000`
 
-## 📊 功能截图
+### 🎯 核心功能
+
+#### 📊 可视化看板
+- **可拖拽布局**：Notion 风格，自由排列组件
+- **12 种组件**：数字卡片、折线图、柱状图、饼图、热力图等
+- **3 种模板**：个人、团队、企业大屏
+- **全屏模式**：适合投屏展示
+
+#### 💰 成本追踪
+- **按模型**：每个模型花了多少钱
+- **按用户**：每个用户/API Key 的成本
+- **按时间**：日/周/月成本趋势
+- **预算告警**：超支提醒（TODO）
+
+#### ⚡ 性能监控
+- **延迟分布**：P50 / P95 / P99
+- **首 Token 延迟**：流式响应的关键指标
+- **错误率**：实时监控，异常告警
+
+#### 🔗 Agent Trace
+- **多步推理链**：可视化 Agent 的思考过程
+- **成本归因**：每一步花了多少 token
+- **时间轴视图**：直观展示各步骤耗时
+
+#### 🔒 安全第一
+- ✅ API Key 不存储原文，只在内存中转发
+- ✅ 日志自动脱敏（只显示后四位）
+- ✅ 4 级隐私设置
+- ✅ 本地优先，数据不出本机
+
+### 🏗️ 技术架构
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  LLM Lens — Dashboard                                       │
-├─────────────────────────────────────────────────────────────┤
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐      │
-│  │ 总请求    │ │ 总成本    │ │ 平均延迟  │ │ 错误率    │      │
-│  │ 12,345   │ │ $45.67   │ │ 234ms    │ │ 0.3%     │      │
-│  └──────────┘ └──────────┘ └──────────┘ └──────────┘      │
+│                        LLM Lens                             │
 │                                                             │
-│  [成本趋势图]  [模型分布]  [最近请求列表]                     │
+│  用户代码 ──→ Proxy (Go) ──→ OpenAI / Claude / DeepSeek   │
+│                    ↓                                        │
+│              记录请求元数据                                  │
+│                    ↓                                        │
+│              SQLite 存储                                    │
+│                    ↓                                        │
+│         API (Python) ──→ Dashboard (Next.js)               │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
-
-## 🏗️ 技术架构
-
-```
-用户代码 → LLM Lens Proxy (Go) → OpenAI / Claude / DeepSeek
-              ↓
-         记录请求/响应/延迟/token/成本
-              ↓
-         SQLite 存储
-              ↓
-         Python API (FastAPI) → Next.js Dashboard
 ```
 
 | 组件 | 技术 | 说明 |
 |------|------|------|
-| 代理层 | Go | 高并发、低延迟、单二进制 |
-| API 层 | Python FastAPI | REST API + 数据分析 |
-| 前端 | Next.js + TailwindCSS | 可拖拽看板 |
-| 存储 | SQLite | 零依赖、单文件 |
-| 部署 | Docker | 一行命令启动 |
+| **代理层** | Go | 高并发、低延迟、单二进制 |
+| **API 层** | Python FastAPI | REST API + 数据分析 |
+| **前端** | Next.js + TailwindCSS | 可拖拽看板 |
+| **存储** | SQLite | 零依赖、单文件 |
+| **部署** | Docker | 一行命令启动 |
 
-## 📁 项目结构
+### 📦 支持的模型
 
-```
-llm-lens/
-├── proxy/              # Go 代理层
-├── api/                # Python API 层
-├── web/                # Next.js 前端
-├── docker-compose.yml  # 一键部署
-├── Dockerfile          # 构建镜像
-├── PRD.md              # 产品需求文档
-└── docs/               # 文档
-```
+| 提供商 | 模型 | 状态 |
+|--------|------|------|
+| **OpenAI** | GPT-4, GPT-4o, GPT-3.5 Turbo | ✅ |
+| **Anthropic** | Claude 3 Opus/Sonnet/Haiku | ✅ |
+| **DeepSeek** | DeepSeek Chat, DeepSeek Coder | ✅ |
+| **Ollama** | Llama, Mistral, CodeLlama | ✅ |
+| **本地模型** | 任何兼容 OpenAI API 的模型 | ✅ |
 
-## 🔒 安全
+### 🤝 贡献
 
-- ✅ API Key 不存储原文，只在内存中转发
-- ✅ 日志自动脱敏（只显示后四位）
-- ✅ 支持 4 级隐私设置（不记录 / 元数据 / 脱敏 / 完整）
-- ✅ 本地优先，数据不出本机
-- ✅ Docker 非 root 运行
+欢迎贡献！请查看 [贡献指南](docs/CONTRIBUTING.md)
 
-## 🗺️ 路线图
-
-- [x] MVP：代理转发 + 基础 Dashboard
-- [ ] 多模型支持（Claude、DeepSeek）
-- [ ] 可拖拽看板系统
-- [ ] Agent Trace 可视化
-- [ ] 告警系统
-- [ ] 移动端 App
-
-## 🤝 贡献
-
-欢迎贡献！请查看 [CONTRIBUTING.md](docs/CONTRIBUTING.md)
-
-## 📄 许可证
-
-MIT License — 详见 [LICENSE](LICENSE)
+<a name="english"></a>
 
 ---
 
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/Howard-Soap">Howard-Soap</a>
-</p>
+## 🇺🇸 English
+
+### ✨ Why LLM Lens?
+
+| Feature | LLM Lens | Langfuse | Helicone | LangSmith |
+|---------|----------|----------|----------|-----------|
+| **Price** | 🆓 Free forever | Free self-host, $59/mo cloud | Pro $20/seat/mo | Plus $39/seat/mo |
+| **Self-host** | 🐳 One docker run | ❌ Needs ClickHouse | ❌ Needs proxy | ❌ Not supported |
+| **Integration** | 📝 Change base_url | SDK / change base_url | Change base_url | SDK (LangChain only) |
+| **Agent Trace** | ✅ Dedicated | ⚠️ Basic | ❌ | ⚠️ Basic |
+| **Dashboard** | ✅ Drag & drop | ❌ Fixed | ❌ Fixed | ❌ Fixed |
+| **Storage** | 📦 SQLite (zero dep) | ❌ ClickHouse + PostgreSQL | ☁️ Cloud | ☁️ Cloud |
+| **License** | 📄 MIT | MIT (partial) | Apache 2.0 | ❌ Proprietary |
+
+### 🚀 Quick Start
+
+#### 1. One command to start
+
+```bash
+docker run -d \
+  --name llm-lens \
+  -p 3000:3000 \
+  -v llm-lens-data:/data \
+  llmlens/llm-lens:latest
+```
+
+#### 2. Integrate your app (one line change)
+
+```python
+import openai
+
+client = openai.OpenAI(
+    api_key="sk-your-api-key",
+    base_url="http://localhost:3000/v1"  # ← Change this line
+)
+
+# No other changes needed!
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+```
+
+#### 3. Open Dashboard
+
+Visit `http://localhost:3000` in your browser
+
+### 🎯 Core Features
+
+#### 📊 Visual Dashboard
+- **Drag & drop layout**: Notion-style, arrange components freely
+- **12 widget types**: Number cards, line charts, bar charts, pie charts, heatmaps, etc.
+- **3 templates**: Personal, Team, Enterprise
+- **Fullscreen mode**: Perfect for presentations
+
+#### 💰 Cost Tracking
+- **By model**: How much each model costs
+- **By user**: Cost per user/API key
+- **By time**: Daily/weekly/monthly trends
+- **Budget alerts**: Get notified when overspending (TODO)
+
+#### ⚡ Performance Monitoring
+- **Latency distribution**: P50 / P95 / P99
+- **Time to First Token**: Key metric for streaming
+- **Error rate**: Real-time monitoring with alerts
+
+#### 🔗 Agent Trace
+- **Multi-step reasoning**: Visualize agent's thought process
+- **Cost attribution**: How many tokens per step
+- **Timeline view**: See where time is spent
+
+#### 🔒 Security First
+- ✅ API keys never stored, only forwarded in memory
+- ✅ Logs auto-sanitized (show last 4 chars only)
+- ✅ 4 privacy levels
+- ✅ Local-first, data never leaves your machine
+
+### 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        LLM Lens                             │
+│                                                             │
+│  User Code ──→ Proxy (Go) ──→ OpenAI / Claude / DeepSeek   │
+│                    ↓                                        │
+│              Record request metadata                        │
+│                    ↓                                        │
+│              SQLite storage                                 │
+│                    ↓                                        │
+│         API (Python) ──→ Dashboard (Next.js)               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+| Component | Technology | Description |
+|-----------|------------|-------------|
+| **Proxy** | Go | High concurrency, low latency, single binary |
+| **API** | Python FastAPI | REST API + data analysis |
+| **Frontend** | Next.js + TailwindCSS | Drag & drop dashboard |
+| **Storage** | SQLite | Zero dependencies, single file |
+| **Deploy** | Docker | One command to start |
+
+### 📦 Supported Models
+
+| Provider | Models | Status |
+|----------|--------|--------|
+| **OpenAI** | GPT-4, GPT-4o, GPT-3.5 Turbo | ✅ |
+| **Anthropic** | Claude 3 Opus/Sonnet/Haiku | ✅ |
+| **DeepSeek** | DeepSeek Chat, DeepSeek Coder | ✅ |
+| **Ollama** | Llama, Mistral, CodeLlama | ✅ |
+| **Local** | Any OpenAI API compatible model | ✅ |
+
+### 🤝 Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](docs/CONTRIBUTING.md)
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE)
+
+---
+
+<div align="center">
+
+**Made with ❤️ by [Howard-Soap](https://github.com/Howard-Soap)**
+
+[GitHub](https://github.com/Howard-Soap/llm-lens) · [Documentation](docs/) · [Issues](https://github.com/Howard-Soap/llm-lens/issues)
+
+</div>
+]]>
