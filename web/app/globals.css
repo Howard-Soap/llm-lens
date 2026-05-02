@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 3, 7, 18;
+  --background-end-rgb: 3, 7, 18;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(17, 24, 39);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(75, 85, 99);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(107, 114, 128);
+}
+
+/* 表格样式 */
+.table-auto {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-auto th,
+.table-auto td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgb(31, 41, 55);
+}
+
+.table-auto th {
+  background-color: rgb(17, 24, 39);
+  font-weight: 600;
+  color: rgb(156, 163, 175);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.table-auto tr:hover {
+  background-color: rgb(17, 24, 39);
+}
+
+/* 卡片样式 */
+.card {
+  background-color: rgb(17, 24, 39);
+  border: 1px solid rgb(31, 41, 55);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.card:hover {
+  border-color: rgb(55, 65, 81);
+}
+
+/* 状态指示器 */
+.status-success {
+  color: rgb(34, 197, 94);
+}
+
+.status-error {
+  color: rgb(239, 68, 68);
+}
+
+.status-warning {
+  color: rgb(245, 158, 11);
+}
+
+/* 加载动画 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
