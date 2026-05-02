@@ -1,4 +1,4 @@
-<![CDATA[<div align="center">
+<div align="center">
 
 # 🔍 LLM Lens
 
@@ -10,11 +10,8 @@
 [![GitHub Stars](https://img.shields.io/github/stars/Howard-Soap/llm-lens.svg)](https://github.com/Howard-Soap/llm-lens)
 [![GitHub Forks](https://img.shields.io/github/forks/Howard-Soap/llm-lens.svg)](https://github.com/Howard-Soap/llm-lens)
 [![Docker Pulls](https://img.shields.io/docker/pulls/llmlens/llm-lens.svg)](https://hub.docker.com/r/llmlens/llm-lens)
-[![Twitter](https://img.shields.io/twitter/follow/llmlens.svg?style=social)](https://twitter.com/llmlens)
 
 [English](#english) | [中文](#中文)
-
-<img src="docs/screenshot.png" alt="LLM Lens Dashboard" width="100%" />
 
 </div>
 
@@ -81,7 +78,6 @@ response = client.chat.completions.create(
 - **按模型**：每个模型花了多少钱
 - **按用户**：每个用户/API Key 的成本
 - **按时间**：日/周/月成本趋势
-- **预算告警**：超支提醒（TODO）
 
 #### ⚡ 性能监控
 - **延迟分布**：P50 / P95 / P99
@@ -201,7 +197,6 @@ Visit `http://localhost:3000` in your browser
 - **By model**: How much each model costs
 - **By user**: Cost per user/API key
 - **By time**: Daily/weekly/monthly trends
-- **Budget alerts**: Get notified when overspending (TODO)
 
 #### ⚡ Performance Monitoring
 - **Latency distribution**: P50 / P95 / P99
@@ -273,4 +268,3 @@ MIT License — see [LICENSE](LICENSE)
 [GitHub](https://github.com/Howard-Soap/llm-lens) · [Documentation](docs/) · [Issues](https://github.com/Howard-Soap/llm-lens/issues)
 
 </div>
-]]>
