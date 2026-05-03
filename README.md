@@ -21,6 +21,52 @@
 
 ## 🇨🇳 中文
 
+### 🌟 我是小白，怎么用？
+
+**你只需要 3 步，全程不超过 5 分钟：**
+
+#### 第 1 步：安装（1 分钟）
+
+打开终端（Mac 按 `Cmd+空格` 输入"终端"，Windows 搜索"PowerShell"），粘贴下面的命令，回车：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Howard-Soap/llm-lens/main/install.sh | bash
+```
+
+> 💡 如果你还没装 Docker，脚本会自动提示你怎么装，跟着做就行。
+
+等它跑完，看到 **"🎉 LLM Lens 安装成功！"** 就行了。
+
+#### 第 2 步：打开网页（10 秒）
+
+浏览器打开 **http://localhost:3000**
+
+你会看到一个漂亮的监控面板 🎉
+
+#### 第 3 步：接入你的应用（2 分钟）
+
+如果你用 Python 调 OpenAI API，**只需要加一行代码**：
+
+```python
+import openai
+
+# 改之前 👇
+client = openai.OpenAI(api_key="sk-xxx")
+
+# 改之后 👇（加一行 base_url）
+client = openai.OpenAI(
+    api_key="sk-xxx",
+    base_url="http://localhost:3000/v1"  # ← 加这一行
+)
+```
+
+其他代码完全不用改！运行你的程序，回到网页刷新，就能看到数据了。
+
+> 📖 零基础教程：[docs/tutorial-for-beginners.md](docs/tutorial-for-beginners.md)
+> ❓ 遇到问题？看这里：[docs/FAQ.md](docs/FAQ.md)
+
+---
+
 ### ✨ 为什么选择 LLM Lens？
 
 | 特性 | LLM Lens | Langfuse | Helicone | LangSmith |
@@ -45,6 +91,12 @@ docker run -d \
   llmlens/llm-lens:latest
 ```
 
+或者用一键安装脚本：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Howard-Soap/llm-lens/main/install.sh | bash
+```
+
 #### 2. 接入你的应用（只需改一行）
 
 ```python
@@ -60,6 +112,16 @@ response = client.chat.completions.create(
     model="gpt-4",
     messages=[{"role": "user", "content": "Hello!"}]
 )
+```
+
+```javascript
+// JavaScript/TypeScript
+import OpenAI from 'openai'
+
+const client = new OpenAI({
+  apiKey: 'sk-your-api-key',
+  baseURL: 'http://localhost:3000/v1'  // ← 改这一行
+})
 ```
 
 #### 3. 打开 Dashboard
@@ -130,6 +192,13 @@ response = client.chat.completions.create(
 | **Ollama** | Llama, Mistral, CodeLlama | ✅ |
 | **本地模型** | 任何兼容 OpenAI API 的模型 | ✅ |
 
+### 📚 文档
+
+- [📖 零基础教程](docs/tutorial-for-beginners.md) — 完全不懂代码也能看懂
+- [🚀 快速开始](docs/getting-started.md) — 5 分钟上手
+- [⚙️ 配置说明](docs/configuration.md) — 进阶配置
+- [❓ 常见问题](docs/FAQ.md) — 遇到问题先看这里
+
 ### 🤝 贡献
 
 欢迎贡献！请查看 [贡献指南](docs/CONTRIBUTING.md)
@@ -139,6 +208,44 @@ response = client.chat.completions.create(
 ---
 
 ## 🇺🇸 English
+
+### 🌟 New to LLM Lens?
+
+**Just 3 steps, under 5 minutes:**
+
+#### Step 1: Install (1 minute)
+
+Open your terminal and paste:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Howard-Soap/llm-lens/main/install.sh | bash
+```
+
+> 💡 Don't have Docker? The script will guide you through installing it.
+
+Wait for **"🎉 LLM Lens installed successfully!"**
+
+#### Step 2: Open the dashboard (10 seconds)
+
+Visit **http://localhost:3000** in your browser.
+
+#### Step 3: Connect your app (2 minutes)
+
+Just add one line to your code:
+
+```python
+client = openai.OpenAI(
+    api_key="sk-xxx",
+    base_url="http://localhost:3000/v1"  # ← add this line
+)
+```
+
+That's it! Run your code, refresh the dashboard, and see your data.
+
+> 📖 Beginner tutorial: [docs/tutorial-for-beginners.md](docs/tutorial-for-beginners.md)
+> ❓ Questions? Check: [docs/FAQ.md](docs/FAQ.md)
+
+---
 
 ### ✨ Why LLM Lens?
 
@@ -164,6 +271,12 @@ docker run -d \
   llmlens/llm-lens:latest
 ```
 
+Or use the one-click install script:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Howard-Soap/llm-lens/main/install.sh | bash
+```
+
 #### 2. Integrate your app (one line change)
 
 ```python
@@ -179,6 +292,16 @@ response = client.chat.completions.create(
     model="gpt-4",
     messages=[{"role": "user", "content": "Hello!"}]
 )
+```
+
+```javascript
+// JavaScript/TypeScript
+import OpenAI from 'openai'
+
+const client = new OpenAI({
+  apiKey: 'sk-your-api-key',
+  baseURL: 'http://localhost:3000/v1'  // ← Change this line
+})
 ```
 
 #### 3. Open Dashboard
@@ -248,6 +371,13 @@ Visit `http://localhost:3000` in your browser
 | **DeepSeek** | DeepSeek Chat, DeepSeek Coder | ✅ |
 | **Ollama** | Llama, Mistral, CodeLlama | ✅ |
 | **Local** | Any OpenAI API compatible model | ✅ |
+
+### 📚 Documentation
+
+- [📖 Beginner Tutorial](docs/tutorial-for-beginners.md) — No coding experience needed
+- [🚀 Quick Start](docs/getting-started.md) — Get running in 5 minutes
+- [⚙️ Configuration](docs/configuration.md) — Advanced settings
+- [❓ FAQ](docs/FAQ.md) — Common issues and solutions
 
 ### 🤝 Contributing
 
